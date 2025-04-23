@@ -1,5 +1,7 @@
+#include <vector>
+
 class convex_polygon{
     public:
-        vector<pair<float, float>> coordinate;
-        pair<float, float> speed;
+        std::vector<std::pair<float, float>> coordinate;
+        std::pair<float, float> speed;
 };
