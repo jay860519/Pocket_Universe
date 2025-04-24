@@ -1,25 +1,32 @@
+#include "SFML/Graphics/RectangleShape.hpp"
 #include <SFML/Graphics.hpp>
-
-int w = 200;
-int h = 200;
+#include <chrono>
+#include <thread>
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(w, h), "SFML");
+  // create the window
+  sf::RenderWindow window(sf::VideoMode({800, 600}), "My window");
 
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Red);
+  sf::RectangleShape rect({30, 30});
+  rect.setFillColor(sf::Color(0, 255, 255));
+  rect.setPosition({60, 60});
 
-    while (window.isOpen()) {
-        sf::Event e;
-        while (window.pollEvent(e)) {
-            if (e.type == sf::Event::Closed)
-                window.close();
-        }
-
-        window.clear();
-        window.draw(shape);
-        window.display();
+  // run the program as long as the window is open
+  while (window.isOpen()) {
+    rect.setPosition({rect.getPosition().x + 2, rect.getPosition().y + 2});
+    while (const std::optional event = window.pollEvent()) {
+      // "close requested" event: we close the window
+      if (event->is<sf::Event::Closed>())
+        window.close();
     }
+    // clear the window with black color
+    window.clear(sf::Color::Black);
+    
+    window.draw(rect);
 
-    return 0;
+    window.display();
+
+    std::chrono::milliseconds t(10);
+    std::this_thread::sleep_for(t);
+  }
 }
